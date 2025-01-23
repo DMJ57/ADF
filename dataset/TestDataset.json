@@ -12,6 +12,7 @@
 				"type": "TextFormat",
 				"treatEmptyAsNull": true
 			},
+			"fileName": "test.csv",
 			"folderPath": "adfcontainer"
 		}
 	},
