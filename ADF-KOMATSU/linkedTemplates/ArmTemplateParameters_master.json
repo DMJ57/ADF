@@ -8,14 +8,11 @@
 		"AzureBlobStorage1_connectionString": {
 			"value": ""
 		},
-		"AzureDataLakeStorage1_accountKey": {
-			"value": ""
-		},
 		"AzureBlobStorage333_connectionString": {
 			"value": ""
 		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"value": "https://komatsu33.dfs.core.windows.net/"
+		"ADFtrigger_properties_pipeline1_parameters_isbool": {
+			"value": true
 		},
 		"containerUri": {
 			"value": ""
