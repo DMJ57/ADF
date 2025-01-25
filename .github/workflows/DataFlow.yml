@@ -3,7 +3,7 @@ name: Deploy DataFlow
 on:
   workflow_run:
     workflows:
-       - Deploy dataflows
+       - Deploy Datasets
     types:
        - completed
 
