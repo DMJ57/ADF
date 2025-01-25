@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "dataFactoryName": {
-      "value": "ADF-KOMATSU"
+      "value": "ADFcomponents"
     },
     "location": {
       "value": "East US"

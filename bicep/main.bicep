@@ -12,7 +12,7 @@ param triggers array
 param location string = 'East US' // Default location
 
 module dataFactoryModule './modules/dataFactory.bicep' = {
-  name: 'dataFactory'
+  name: 'ADFcomponents'
   params: {
     dataFactoryName: dataFactoryName
     location: location
