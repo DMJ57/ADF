@@ -1,11 +1,11 @@
 name: Deploy DataFlow
 
 on:
-  workflow_run:
-    workflows:
-       - Deploy Datasets
-    types:
-       - completed
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
 
 jobs:
   deploy:

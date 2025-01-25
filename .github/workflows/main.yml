@@ -1,0 +1,39 @@
+name: Deploy ADF Components
+
+on:
+  push:
+    branches:
+      - SouvikNewADF
+
+jobs: 
+  deploy-LinkedService:
+    uses: ./.github/workflows/LinkedService.yml
+    with: 
+      branch: SouvikNewADF
+    
+
+  deploy-DataSets:
+    needs: deploy-LinkedService
+    uses: ./.github/workflows/DataSets.yml
+    with: 
+      branch: SouvikNewADF
+
+  deploy-DataFlow:
+    needs: deploy-LinkedService
+    uses: ./.github/workflows/DataFlow.yml
+    with: 
+      branch: SouvikNewADF
+    
+    
+  deploy-Pipeline:
+    needs: deploy-DataSets
+    uses: ./.github/workflows/Pipeline.yml
+    with: 
+      branch: SouvikNewADF
+    
+  deploy-Trigger:
+    needs: deploy-Pipeline
+    uses: ./.github/workflows/Trigger.yml
+    with: 
+      branch: SouvikNewADF
+    

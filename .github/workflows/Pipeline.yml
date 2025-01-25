@@ -1,11 +1,11 @@
 name: Deploy ADF Pipelines
 
 on:
-  workflow_run:
-    workflows:
-       - Deploy DataFlow
-    types:
-       - completed
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
 
 
 jobs:
