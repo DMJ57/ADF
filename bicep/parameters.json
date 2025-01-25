@@ -7,6 +7,21 @@
     },
     "location": {
       "value": "East US"
+    },
+    "dataflows": {
+    "value": []
+    },
+    "datasets": {
+      "value": []
+    },
+    "linkedservices": {
+      "value": []
+    },
+    "pipelines": {
+      "value": []
+    },
+    "triggers": {
+      "value": []
     }
   }
 }
