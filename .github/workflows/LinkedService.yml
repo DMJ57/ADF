@@ -62,5 +62,5 @@ jobs:
         az deployment group create \
           --resource-group "komatsu" \
           --template-file ./bicep/modules/linkedservice.bicep \
-          --parameters dataFactoryName=ADF-components \
+          --parameters dataFactoryName=DMJTest \
           --parameters linkedServices="$linkedServices"
