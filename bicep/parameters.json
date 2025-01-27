@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "dataFactoryName": {
-      "value": "ADFcomponents"
+      "value": "testadf123git"
     },
     "location": {
       "value": "East US"

@@ -4,8 +4,37 @@ on:
   push:
     branches:
       - main
+    tags:
+      - 'v*'
 
 jobs: 
+  versioning:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        
+      - name: Get current version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "Current version: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      
+      - name: Update version in file (e.g., version.txt)
+        run: |
+          echo $VERSION > version.txt
+          git add version.txt
+          git commit -m "Update version to $VERSION"
+          git push
+
+      - name: Push updated version file
+        run: |
+          git tag $VERSION
+          git push origin $VERSION
   build:
     runs-on: ubuntu-latest
 
