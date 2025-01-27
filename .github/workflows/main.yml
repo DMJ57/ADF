@@ -11,21 +11,24 @@ jobs:
   versioning:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
-        
-      - name: Get current version from tag
-        id: version
+        with:
+          node-version: '14'
+
+      - name: Configure Git user
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+
+      - name: Run deployment script
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
           echo "Current version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-      
-      - name: Update version in file (e.g., version.txt)
-        run: |
           echo $VERSION > version.txt
           git add version.txt
           git commit -m "Update version to $VERSION"
@@ -64,46 +67,46 @@ jobs:
       AZURE_SUBSCRIPTION_ID_D_APIM: ${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}
       AZURE_TENANT_ID_D_APIM: ${{ secrets.AZURE_TENANT_ID_D_APIM }}
 
-  deploy-DataSets:
-    needs: deploy-LinkedService
-    uses: ./.github/workflows/DataSets.yml
-    with: 
-      branch: main
-    secrets:
-      AZURE_CLIENT_ID_D_APIM: ${{ secrets.AZURE_CLIENT_ID_D_APIM }}
-      AZURE_CLIENT_SECRET_D_APIM: ${{ secrets.AZURE_CLIENT_SECRET_D_APIM }}
-      AZURE_SUBSCRIPTION_ID_D_APIM: ${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}
-      AZURE_TENANT_ID_D_APIM: ${{ secrets.AZURE_TENANT_ID_D_APIM }}
+  # deploy-DataSets:
+  #   needs: deploy-LinkedService
+  #   uses: ./.github/workflows/DataSets.yml
+  #   with: 
+  #     branch: main
+  #   secrets:
+  #     AZURE_CLIENT_ID_D_APIM: ${{ secrets.AZURE_CLIENT_ID_D_APIM }}
+  #     AZURE_CLIENT_SECRET_D_APIM: ${{ secrets.AZURE_CLIENT_SECRET_D_APIM }}
+  #     AZURE_SUBSCRIPTION_ID_D_APIM: ${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}
+  #     AZURE_TENANT_ID_D_APIM: ${{ secrets.AZURE_TENANT_ID_D_APIM }}
 
-  deploy-DataFlow:
-    needs: deploy-DataSets
-    uses: ./.github/workflows/DataFlow.yml
-    with: 
-      branch: main
-    secrets:
-      AZURE_CLIENT_ID_D_APIM: ${{ secrets.AZURE_CLIENT_ID_D_APIM }}
-      AZURE_CLIENT_SECRET_D_APIM: ${{ secrets.AZURE_CLIENT_SECRET_D_APIM }}
-      AZURE_SUBSCRIPTION_ID_D_APIM: ${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}
-      AZURE_TENANT_ID_D_APIM: ${{ secrets.AZURE_TENANT_ID_D_APIM }}
+  # deploy-DataFlow:
+  #   needs: deploy-DataSets
+  #   uses: ./.github/workflows/DataFlow.yml
+  #   with: 
+  #     branch: main
+  #   secrets:
+  #     AZURE_CLIENT_ID_D_APIM: ${{ secrets.AZURE_CLIENT_ID_D_APIM }}
+  #     AZURE_CLIENT_SECRET_D_APIM: ${{ secrets.AZURE_CLIENT_SECRET_D_APIM }}
+  #     AZURE_SUBSCRIPTION_ID_D_APIM: ${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}
+  #     AZURE_TENANT_ID_D_APIM: ${{ secrets.AZURE_TENANT_ID_D_APIM }}
 
-  deploy-Pipeline:
-    needs: deploy-DataFlow
-    uses: ./.github/workflows/Pipeline.yml
-    with: 
-      branch: main
-    secrets:
-      AZURE_CLIENT_ID_D_APIM: ${{ secrets.AZURE_CLIENT_ID_D_APIM }}
-      AZURE_CLIENT_SECRET_D_APIM: ${{ secrets.AZURE_CLIENT_SECRET_D_APIM }}
-      AZURE_SUBSCRIPTION_ID_D_APIM: ${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}
-      AZURE_TENANT_ID_D_APIM: ${{ secrets.AZURE_TENANT_ID_D_APIM }}
+  # deploy-Pipeline:
+  #   needs: deploy-DataFlow
+  #   uses: ./.github/workflows/Pipeline.yml
+  #   with: 
+  #     branch: main
+  #   secrets:
+  #     AZURE_CLIENT_ID_D_APIM: ${{ secrets.AZURE_CLIENT_ID_D_APIM }}
+  #     AZURE_CLIENT_SECRET_D_APIM: ${{ secrets.AZURE_CLIENT_SECRET_D_APIM }}
+  #     AZURE_SUBSCRIPTION_ID_D_APIM: ${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}
+  #     AZURE_TENANT_ID_D_APIM: ${{ secrets.AZURE_TENANT_ID_D_APIM }}
     
-  deploy-Trigger:
-    needs: deploy-Pipeline
-    uses: ./.github/workflows/Trigger.yml
-    with: 
-      branch: main
-    secrets:
-      AZURE_CLIENT_ID_D_APIM: ${{ secrets.AZURE_CLIENT_ID_D_APIM }}
-      AZURE_CLIENT_SECRET_D_APIM: ${{ secrets.AZURE_CLIENT_SECRET_D_APIM }}
-      AZURE_SUBSCRIPTION_ID_D_APIM: ${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}
-      AZURE_TENANT_ID_D_APIM: ${{ secrets.AZURE_TENANT_ID_D_APIM }}
+  # deploy-Trigger:
+  #   needs: deploy-Pipeline
+  #   uses: ./.github/workflows/Trigger.yml
+  #   with: 
+  #     branch: main
+  #   secrets:
+  #     AZURE_CLIENT_ID_D_APIM: ${{ secrets.AZURE_CLIENT_ID_D_APIM }}
+  #     AZURE_CLIENT_SECRET_D_APIM: ${{ secrets.AZURE_CLIENT_SECRET_D_APIM }}
+  #     AZURE_SUBSCRIPTION_ID_D_APIM: ${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}
+  #     AZURE_TENANT_ID_D_APIM: ${{ secrets.AZURE_TENANT_ID_D_APIM }}

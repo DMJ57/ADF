@@ -61,6 +61,6 @@ jobs:
 
         az deployment group create \
           --resource-group "komatsu" \
-          --template-file ./bicep/modules/main.bicep \
+          --template-file ./bicep/main.bicep \
           --parameters dataFactoryName=testadf123git \
           --parameters linkedServices="$linkedServices"
