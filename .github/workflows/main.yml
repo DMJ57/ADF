@@ -17,7 +17,7 @@ jobs:
       - name: Get current version from the last tag
         id: get_version
         run: |
-          # Get the most recent tag (e.g., v1.0.0)
+          # Get the most recent tag (e.g., v2.0.0)
           LAST_TAG=$(git describe --tags --abbrev=0)
           echo "Last tag: $LAST_TAG"
           
