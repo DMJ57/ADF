@@ -21,8 +21,8 @@ jobs:
 
       - name: Configure Git user
         run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+          git config --global user.email "souvikg90@gmail.com"
+          git config --global user.name "Souvik Ghosh"
 
       - name: Run deployment script
         run: |
@@ -56,16 +56,16 @@ jobs:
                 "tenantId":"${{ secrets.AZURE_TENANT_ID_D_APIM }}"
               }
 
-  deploy-LinkedService:
-    needs: build
-    uses: ./.github/workflows/LinkedService.yml
-    with: 
-      branch: main
-    secrets:
-      AZURE_CLIENT_ID_D_APIM: ${{ secrets.AZURE_CLIENT_ID_D_APIM }}
-      AZURE_CLIENT_SECRET_D_APIM: ${{ secrets.AZURE_CLIENT_SECRET_D_APIM }}
-      AZURE_SUBSCRIPTION_ID_D_APIM: ${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}
-      AZURE_TENANT_ID_D_APIM: ${{ secrets.AZURE_TENANT_ID_D_APIM }}
+  # deploy-LinkedService:
+  #   needs: build
+  #   uses: ./.github/workflows/LinkedService.yml
+  #   with: 
+  #     branch: main
+  #   secrets:
+  #     AZURE_CLIENT_ID_D_APIM: ${{ secrets.AZURE_CLIENT_ID_D_APIM }}
+  #     AZURE_CLIENT_SECRET_D_APIM: ${{ secrets.AZURE_CLIENT_SECRET_D_APIM }}
+  #     AZURE_SUBSCRIPTION_ID_D_APIM: ${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}
+  #     AZURE_TENANT_ID_D_APIM: ${{ secrets.AZURE_TENANT_ID_D_APIM }}
 
   # deploy-DataSets:
   #   needs: deploy-LinkedService
