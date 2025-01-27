@@ -14,6 +14,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
+      - name: github setup
+        run: |
+          git config --global user.email "souvikg90@gmail.com"
+          git config --global user.name "Souvik"
+
       - name: Get the most recent tag
         id: get_tag
         run: |
