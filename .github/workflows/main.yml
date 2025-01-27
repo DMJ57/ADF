@@ -11,33 +11,18 @@ jobs:
   versioning:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
 
-      - name: Configure Git user
+      - name: Get version from tag
+        id: version
         run: |
-          git config --global user.email "souvikg90@gmail.com"
-          git config --global user.name "Souvik Ghosh"
-
-      - name: Run deployment script
-        run: |
+          # Extract the version number from the tag
           VERSION=${GITHUB_REF#refs/tags/v}
           echo "Current version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo $VERSION > version.txt
-          git add version.txt
-          git commit -m "Update version to $VERSION"
-          git push
-
-      - name: Push updated version file
-        run: |
-          git tag $VERSION
-          git push origin $VERSION
+          
   build:
     runs-on: ubuntu-latest
 
