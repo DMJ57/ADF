@@ -21,8 +21,14 @@ jobs:
           # Extract the version number from the tag
           VERSION=${GITHUB_REF#refs/tags/v}
           echo "Current version: $VERSION"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $
           
+      - name: Get the latest tag (version)
+        run: |
+          VERSION=$(git describe --tags)
+          echo "Current version: $VERSION"
+          cat $VERSION
+
   build:
     runs-on: ubuntu-latest
 
