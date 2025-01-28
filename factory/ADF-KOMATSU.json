@@ -1,5 +1,17 @@
 {
 	"name": "ADF-KOMATSU",
+	"properties": {
+		"globalParameters": {
+			"isTrue": {
+				"type": "bool",
+				"value": true
+			},
+			"isFalse": {
+				"type": "bool",
+				"value": false
+			}
+		}
+	},
 	"location": "eastus",
 	"identity": {
 		"type": "SystemAssigned",

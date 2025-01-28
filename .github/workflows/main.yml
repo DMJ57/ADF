@@ -8,43 +8,58 @@ on:
       - 'v*'
 
 jobs: 
-  versioning:
+  release:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: github setup
+      - name: Install dependencies
         run: |
-          git config --global user.email "souvikg90@gmail.com"
-          git config --global user.name "Souvik"
+          npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github
 
-      - name: Get the most recent tag
-        id: get_tag
+      - name: Run semantic-release
         run: |
-          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          echo "Last tag: $LAST_TAG"
-          echo "LAST_TAG=$LAST_TAG" >> $GITHUB_ENV
+          npx semantic-release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  # versioning:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out repository
+  #       uses: actions/checkout@v2
+
+  #     - name: github setup
+  #       run: |
+  #         git config --global user.email "souvikg90@gmail.com"
+  #         git config --global user.name "Souvik"
+
+  #     - name: Get the most recent tag
+  #       id: get_tag
+  #       run: |
+  #         LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+  #         echo "Last tag: $LAST_TAG"
+  #         echo "LAST_TAG=$LAST_TAG" >> $GITHUB_ENV
   
-      - name: Increment version
-        run: |
-          VERSION=${LAST_TAG#v}
-          MAJOR=$(echo $VERSION | cut -d '.' -f 1)
-          MINOR=$(echo $VERSION | cut -d '.' -f 2)
-          PATCH=$(echo $VERSION | cut -d '.' -f 3)
+  #     - name: Increment version
+  #       run: |
+  #         VERSION=${LAST_TAG#v}
+  #         MAJOR=$(echo $VERSION | cut -d '.' -f 1)
+  #         MINOR=$(echo $VERSION | cut -d '.' -f 2)
+  #         PATCH=$(echo $VERSION | cut -d '.' -f 3)
   
-          PATCH=$((PATCH + 1))
-          NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
+  #         PATCH=$((PATCH + 1))
+  #         NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
   
-          echo "New version: $NEW_VERSION"
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+  #         echo "New version: $NEW_VERSION"
+  #         echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
   
-      - name: Run deployment script
-        run: |
-          echo $NEW_VERSION > version.txt
-          git add version.txt
-          git commit -m "Update version to $NEW_VERSION"
-          git push
+  #     - name: Run deployment script
+  #       run: |
+  #         echo $NEW_VERSION > version.txt
+  #         git add version.txt
+  #         git commit -m "Update version to $NEW_VERSION"
+  #         git push
 
   build:
     runs-on: ubuntu-latest
@@ -63,6 +78,16 @@ jobs:
                 "subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}",
                 "tenantId":"${{ secrets.AZURE_TENANT_ID_D_APIM }}"
               }
+  deploy-GlobalParameters:
+    needs: build
+    uses: ./.github/workflows/Factory.yml
+    with: 
+      branch: main
+    secrets:
+      AZURE_CLIENT_ID_D_APIM: ${{ secrets.AZURE_CLIENT_ID_D_APIM }}
+      AZURE_CLIENT_SECRET_D_APIM: ${{ secrets.AZURE_CLIENT_SECRET_D_APIM }}
+      AZURE_SUBSCRIPTION_ID_D_APIM: ${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}
+      AZURE_TENANT_ID_D_APIM: ${{ secrets.AZURE_TENANT_ID_D_APIM }}
 
   # deploy-LinkedService:
   #   needs: build

@@ -1,0 +1,66 @@
+name: Deploy Factory
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+    secrets:
+      AZURE_CLIENT_ID_D_APIM:
+        required: true
+      AZURE_CLIENT_SECRET_D_APIM:
+        required: true
+      AZURE_SUBSCRIPTION_ID_D_APIM:
+        required: true
+      AZURE_TENANT_ID_D_APIM:
+        required: true
+
+jobs:
+  
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install jq
+      run: sudo apt-get install jq
+
+    - name: Log in to Azure
+      uses: azure/login@v2
+      with:
+        creds: >
+              {
+                "clientId":"${{ secrets.AZURE_CLIENT_ID_D_APIM }}",
+                "clientSecret":"${{ secrets.AZURE_CLIENT_SECRET_D_APIM }}",
+                "subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID_D_APIM }}",
+                "tenantId":"${{ secrets.AZURE_TENANT_ID_D_APIM }}"
+              }
+        enable-AzPSSession: true
+
+    - name: Read factory JSON files and deploy
+      run: |
+        factory1=$(cat ./factory/ADF-KOMATSU.json)
+        factory2=$(cat ./factory/datafactoryTEST333.json)
+
+        factorys=$(jq -n \
+          --arg factory1 "$factory1" \
+          --arg factory2 "$factory2" \
+          '[ 
+            {
+              "name": "ADF-KOMATSU", 
+              "definition": $factory1 | fromjson 
+            }, 
+            { 
+              "name": "datafactoryTEST333", 
+              "definition": $factory2 | fromjson 
+            } 
+          ]')
+
+        az deployment group create \
+          --resource-group "komatsu" \
+          --template-file ./bicep/modules/factory.bicep \
+          --parameters dataFactoryName=DMJTest \
+          --parameters factorys="$factorys"
