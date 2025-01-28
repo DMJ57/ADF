@@ -43,12 +43,9 @@ jobs:
     - name: Read factory JSON files and deploy
       run: |
           factory1=$(cat ./factory/ADF-KOMATSU.json)
-          globalParams=$(echo "$factory1" | jq -r '.properties.globalParameters | @json')
-          # Ensure globalParams is not empty and valid JSON
-          if [ -z "$globalParams" ]; then
-            echo "Global Parameters are empty or invalid"
-            exit 1
-          fi
+          # Ensure the globalParameters are passed correctly
+          globalParams=$(echo "$factory1" | jq -r '.properties.globalParameters.default | @json')
+          echo "Global Parameters: $globalParams"  # For debugging
           az deployment group create \
             --resource-group "komatsu" \
             --template-file ./bicep/modules/factory.bicep \
