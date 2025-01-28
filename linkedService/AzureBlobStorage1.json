@@ -1,16 +1,16 @@
 {
-	"name": "AzureBlobStorage1",
+	"name": "",
 	"properties": {
 		"annotations": [],
-		"type": "AzureBlobStorage",
+		"type": "",
 		"typeProperties": {
 			"connectionString": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
-					"referenceName": "AzureKeyVault1",
+					"referenceName": "",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "kx-demo-constring-dev"
+				"secretName": ""
 			}
 		}
 	},
