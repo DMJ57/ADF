@@ -12,6 +12,8 @@ resource dataFactory 'Microsoft.DataFactory/factories@2018-06-01' = {
 resource globalParametersADF 'Microsoft.DataFactory/factories/globalParameters@2018-06-01' = {
   parent: dataFactory
   name: 'globalParameters'
-  properties: globalParameters.definition.properties
+  properties: {
+    globalParameters: globalParameters
+  }
 }
 

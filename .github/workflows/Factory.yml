@@ -44,14 +44,7 @@ jobs:
       run: |
         factory1=$(cat ./factory/ADF-KOMATSU.json)
 
-        factorys=$(jq -n \
-          --arg factory1 "$factory1" \
-          '[ 
-            {
-              "name": "DMJTest", 
-              "definition": $factory1 | fromjson 
-            }
-          ]')
+        factorys=$(echo "$factory1" | jq -r '.properties.globalParameters')
 
         az deployment group create \
           --resource-group "komatsu" \
