@@ -1,17 +1,5 @@
 {
-	"name": "DMJTest",
-	"properties": {
-		"globalParameters": {
-			"isTrue": {
-				"type": "bool",
-				"value": true
-			},
-			"isFalse": {
-				"type": "bool",
-				"value": false
-			}
-		}
-	},
+	"name": "ADF-KOMATSU",
 	"location": "eastus",
 	"identity": {
 		"type": "SystemAssigned",

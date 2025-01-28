@@ -12,9 +12,9 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "variable_2",
+					"variableName": "isTrueorfalse",
 					"value": {
-						"value": "@pipeline().globalParameters.isTrue",
+						"value": "@pipeline().parameters.isbool",
 						"type": "Expression"
 					}
 				}
@@ -33,7 +33,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@variables('variable_2')",
+						"value": "@variables('isTrueorfalse')",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
@@ -65,16 +65,18 @@
 				}
 			}
 		],
+		"parameters": {
+			"isbool": {
+				"type": "bool"
+			}
+		},
 		"variables": {
-			"variable_1": {
-				"type": "Boolean"
-			},
-			"variable_2": {
+			"isTrueorfalse": {
 				"type": "Boolean"
 			}
 		},
 		"annotations": [],
-		"lastPublishTime": "2025-01-27T15:47:32Z"
+		"lastPublishTime": "2025-01-24T17:37:48Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
