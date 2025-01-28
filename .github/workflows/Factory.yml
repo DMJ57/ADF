@@ -46,10 +46,9 @@ jobs:
 
         factorys=$(jq -n \
           --arg factory1 "$factory1" \
-          --arg factory2 "$factory2" \
           '[ 
             {
-              "name": "ADF-KOMATSU", 
+              "name": "DMJTest", 
               "definition": $factory1 | fromjson 
             }
           ]')
