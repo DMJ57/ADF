@@ -40,25 +40,21 @@ jobs:
               }
         enable-AzPSSession: true
 
-    - name: Read factory JSON files
+    - name: Read factory JSON files and deploy
       run: |
-          # Read the JSON files and prepare the parameters to be passed to Bicep
-          factory1=$(cat ./factory/ADF-KOMATSU.json)
-          factory2=$(cat ./factory/datafactoryTEST333.json)
+        factory1=$(cat ./factory/ADF-KOMATSU.json)
 
-          # Ensure we're passing the global parameters as an object
-          globalParams=$(jq -n \
-            --argjson factory1 "$factory1" \
-            --argjson factory2 "$factory2" \
-            '{ADF_KOMATSU: $factory1.properties.globalParameters, datafactoryTEST333: $factory2.properties.globalParameters}')
+        factorys=$(jq -n \
+          --arg factory1 "$factory1" \
+          --arg factory2 "$factory2" \
+          '[ 
+            {
+              "name": "ADF-KOMATSU", 
+              "definition": $factory1 | fromjson 
+            }
+          ]')
 
-          echo "globalParams=$globalParams" >> $GITHUB_ENV
-
-    - name: Deploy ADF Global Parameters with Bicep
-      run: |
-          # Deploy the factory using Bicep
-          az deployment group create \
-            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-            --template-file ./bicep/modules/factory.bicep \
-            --parameters dataFactoryName="DMJTest" \
-            --parameters globalParameters="$globalParams"
+        az deployment group create \
+          --resource-group "komatsu" \
+          --template-file ./bicep/modules/factory.bicep \
+          --parameters dataFactoryName=DMJTest \
