@@ -44,7 +44,6 @@ jobs:
       run: |
           factory1=$(cat ./factory/ADF-KOMATSU.json)
           globalParams=$(echo "$factory1" | jq -r '.properties.globalParameters | @json')
-          echo "Global Parameters: $globalParams"  # For debugging
           az deployment group create \
             --resource-group "komatsu" \
             --template-file ./bicep/modules/factory.bicep \
