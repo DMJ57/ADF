@@ -44,7 +44,7 @@ jobs:
       run: |
           factory1=$(cat ./factory/ADF-KOMATSU.json)
           # Ensure the globalParameters are passed correctly
-          globalParams=$(echo "$factory1" | jq -r '.properties.globalParameters.default | @json')
+          globalParams=$(echo "$factory1" | jq -r '.properties.globalParameters | @json')
           echo "Global Parameters: $globalParams"  # For debugging
           az deployment group create \
             --resource-group "komatsu" \
