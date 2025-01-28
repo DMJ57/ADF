@@ -42,12 +42,12 @@ jobs:
 
     - name: Read factory JSON files and deploy
       run: |
-        factory1=$(cat ./factory/ADF-KOMATSU.json)
-
-        factorys=$(echo "$factory1" | jq -r '.properties.globalParameters')
-
-        az deployment group create \
-          --resource-group "komatsu" \
-          --template-file ./bicep/modules/factory.bicep \
-          --parameters dataFactoryName=DMJTest \
-          --parameters globalParameters=$factorys
+          factory1=$(cat ./factory/ADF-KOMATSU.json)
+          globalParams=$(echo "$factory1" | jq -r '.properties.globalParameters | @json')
+          echo "Global Parameters: $globalParams"  # For debugging
+          az deployment group create \
+            --resource-group "komatsu" \
+            --template-file ./bicep/modules/factory.bicep \
+            --parameters dataFactoryName="DMJTest" \
+            --parameters globalParameters="$globalParams"
+      
