@@ -2,7 +2,7 @@ targetScope = 'resourceGroup'  // Set targetScope to resourceGroup
 
 param dataFactoryName string
 
-param globalParameters object 
+param properties object 
 
 
 resource dataFactory 'Microsoft.DataFactory/factories@2018-06-01' = {
@@ -11,8 +11,6 @@ resource dataFactory 'Microsoft.DataFactory/factories@2018-06-01' = {
   identity: {
     type: 'SystemAssigned'
   }
-  properties: {
-    globalParameters: globalParameters
-  }
+  properties:properties
 }
 

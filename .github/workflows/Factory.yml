@@ -44,11 +44,11 @@ jobs:
       run: |
           factory1=$(cat ./factory/ADF-KOMATSU.json)
           # Ensure the globalParameters are passed correctly
-          globalParams=$(echo "$factory1" | jq -r '.properties.globalParameters | @json')
+          globalParams=$(echo "$factory1" | jq -r '.properties | @json')
           echo "Global Parameters: $globalParams"  # For debugging
           az deployment group create \
             --resource-group "komatsu" \
             --template-file ./bicep/modules/factory.bicep \
             --parameters dataFactoryName="DMJTest" \
-            --parameters globalParameters="$globalParams"
+            --parameters properties="$globalParams"
       
