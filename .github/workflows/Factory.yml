@@ -63,4 +63,4 @@ jobs:
           --resource-group "komatsu" \
           --template-file ./bicep/modules/factory.bicep \
           --parameters dataFactoryName=DMJTest \
-          --parameters factorys="$factorys"
+          --parameters globalParameters="$factorys"
