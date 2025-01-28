@@ -44,6 +44,11 @@ jobs:
       run: |
           factory1=$(cat ./factory/ADF-KOMATSU.json)
           globalParams=$(echo "$factory1" | jq -r '.properties.globalParameters | @json')
+          # Ensure globalParams is not empty and valid JSON
+          if [ -z "$globalParams" ]; then
+            echo "Global Parameters are empty or invalid"
+            exit 1
+          fi
           az deployment group create \
             --resource-group "komatsu" \
             --template-file ./bicep/modules/factory.bicep \
