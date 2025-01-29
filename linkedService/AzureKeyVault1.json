@@ -1,10 +1,10 @@
 {
-	"name": "",
+	"name": "AzureKeyVault1",
 	"properties": {
 		"annotations": [],
 		"type": "AzureKeyVault",
 		"typeProperties": {
-			"baseUrl": ""
+			"baseUrl": "https://kx1-demo-dev.vault.azure.net/"
 		}
 	}
 }
